@@ -1,0 +1,42 @@
+{% load i18n sizeformat %}
+
+<h3>{% trans "Network Overview" %}</h3>
+
+<div class="info detail">
+  <dl>
+    <dt>{% trans "Name" %}</dt>
+    <dd>{{ network.name|default:_("None") }}</dd>
+    <dt>{% trans "ID" %}</dt>
+    <dd>{{ network.id|default:_("None") }}</dd>
+    <dt>{% trans "Project ID" %}</dt>
+    <dd>{{ network.tenant_id|default:"-" }}</dd>
+    <dt>{% trans "Status" %}</dt>
+    <dd>{{ network.status|default:_("Unknown") }}</dd>
+    <dt>{% trans "Admin State" %}</dt>
+    <dd>{{ network.admin_state|default:_("Unknown") }}</dd>
+    <dt>{% trans "Shared" %}</dt>
+    <dd>
+      {% ifequal network.shared|yesno:"true,false" "true" %}
+          {% trans "True"%}
+      {% else %}
+          {% trans "False" %}
+      {% endifequal %}
+    </dd>
+    <dt>{% trans "External Network" %}</dt>
+    <dd>
+      {% ifequal network.router__external|yesno:"true,false" "true" %}
+          {% trans "True"%}
+      {% else %}
+          {% trans "False" %}
+      {% endifequal %}
+    </dd>
+    {% if network.provider__network_type %}
+    <dt>{% trans "Provider Network" %}</dt>
+		<dd>
+			<span>{% trans "Network Type" %}: {{ network.provider__network_type|default:_("Unknown") }}</span>
+			<span>{% trans "Physical Network" %}: {{ network.provider__physical_network|default:"-" }}</span>
+			<span>{% trans "Segmentation ID" %}: {{ network.provider__segmentation_id|default:"-" }}</span>
+	  </dd>
+    {% endif %}
+  </dl>
+</div>

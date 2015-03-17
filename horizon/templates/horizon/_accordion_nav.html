@@ -1,0 +1,96 @@
+{% load horizon i18n %}
+{% load url from future %}
+
+<script type="text/javascript">
+function getHtmlData(divName){
+   var data = $(divName).html();
+   $(divName).html('');
+   return data;
+}
+function makeDiv(className, size, spanStyle, divName){
+   var custSpan = "";
+   if (spanStyle == undefined) {
+      custSpan = "style='vertical-align:middle;'";
+   } else {
+      custSpan = spanStyle;
+   }
+   if (size == undefined) {
+       size = 'fa-1x'
+   }
+   var valStr = className + " " + size;
+   var divTag = ""
+   if (divName.indexOf('dt') >= 0) {
+      divTag =  "<i class='" + valStr + "' " + custSpan+ "></i>&nbsp;&nbsp;" + getHtmlData(divName);
+   } else {
+      var iconType = 'right'
+      if (divName.indexOf("dd div.") >=0) {
+        var divClass = divName.split('.')
+        var jqVal = ".nav_accordion > dd > div > h4 > div." + divClass[1]
+        
+        if ($(jqVal).parent().hasClass('active')) {
+          iconType = 'down';
+        }
+        divTag = "<i class='" + valStr + "' " + custSpan+ "></i>&nbsp;&nbsp;" + 
+      "<i class='fa fa-caret-"+iconType+"' style='float:right'></i>" + getHtmlData(divName);
+      } else {
+        divTag = "<i class='" + valStr + "' " + custSpan+ "></i>&nbsp;&nbsp;" + 
+        getHtmlData(divName);
+      }
+   }
+   return divTag;
+}     
+$(document).ready(function(){
+    $('dt div.project').append(makeDiv('fa fa-book', 'fa-2x', undefined, 'dt div.project'));
+    $('dt div.admin').append(makeDiv('fa fa-gears', 'fa-2x', undefined, 'dt div.admin'));
+    $('dt div.settings').append(makeDiv('fa fa-wrench', 'fa-2x', undefined, 'dt div.settings'));
+    
+    $('dd div.admin').append(makeDiv('fa fa-pie-chart', undefined, undefined, 'dd div.admin'));
+    $('dd div.storage').append(makeDiv('fa fa-database', undefined, undefined, 'dd div.storage'));
+    $('dd div.network').append(makeDiv('fa fa-globe', undefined, undefined, 'dd div.network'));
+    $('dd div.compute').append(makeDiv('fa fa-calculator', undefined, undefined, 'dd div.compute'));
+    $('dd div.identity').append(makeDiv('fa fa-lock', undefined, undefined, 'dd div.identity'));
+    $('dd div.auditlog').append(makeDiv('fa fa-eye', undefined, undefined, 'dd div.auditlog'));
+
+    $('dd div.security').append(makeDiv('fa fa-key', undefined, undefined, 'dd div.security'));
+    $('dd div.orchestration').append(makeDiv('fa fa-recycle', undefined, undefined, 'dd div.orchestration'));
+    $('dd div.object_store').append(makeDiv('fa fa-hdd-o', undefined, undefined, 'dd div.object_store'));
+});
+</script>
+
+<div>
+  <dl class="nav_accordion">
+  {% for dashboard, panel_info in components %}
+    {% if user|has_permissions:dashboard %}
+      {% if dashboard.supports_tenants and request.user.authorized_tenants or not dashboard.supports_tenants %}
+        <dt {% if current.slug == dashboard.slug %}class="active"{% endif %}>
+          <div class="{{ dashboard.slug }}">{{ dashboard.name }}</div>
+        </dt>
+        {% if current.slug == dashboard.slug %}
+        <dd>
+        {% else %}
+        <dd style="display:none;">
+        {% endif %}
+        {% for group, panels in panel_info.iteritems %}
+          {% with panels|has_permissions_on_list:user as filtered_panels %}
+          {% if filtered_panels %}
+            {% if group.name %}
+            <div><h4><div class="{{ group.slug }}">{{ group.name }}</div></h4>
+            {% endif %}
+            <ul>
+            {% for panel in filtered_panels %}
+              <li><a href="{{ panel.get_absolute_url }}" {% if current.slug == dashboard.slug and current_panel == panel.slug %}class="active"{% endif %} >{{ panel.name }}</a></li>
+            {% endfor %}
+            </ul>
+            {% if group.name %}
+              </div>
+            {% endif %}
+          {% endif %}
+          {% endwith %}
+        {% endfor %}
+        </dd>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  </dl>
+</div>
+

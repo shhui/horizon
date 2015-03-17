@@ -1,0 +1,84 @@
+div.detail {
+  dt, dd {
+    display: inline-block;
+    margin-bottom: 1px;
+  }
+
+  dt {
+    width: 12%;
+    background-color: #edf2f5;
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  dd {
+    width: 35%;
+    margin: 0;
+    padding-left: 5px;
+
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  dd.whole-row {
+    width: 82%;
+  }
+}
+
+/*--------------------------------start ceilometer------------------------------------------------*/
+.meter_image{
+	background-color: #F0F4F6;
+	background-image: url(/static/dashboard/img/drop_arrow_l2.png);
+	background-position: 99% 50%;
+	background-repeat: no-repeat;
+	height:30px;
+}
+.chart_title_name{
+	line-height:2;
+}
+.chart_title_name_left{
+	width:500px;
+	margin-left:2%;
+	float:left;
+}
+.chart_title_name_right{
+	float:left;
+}
+.chart_title_name_clear{
+	clear:both;
+}
+.ceil_span_image{
+	float:right;
+	margin-right:1%;
+	padding-top:8px;
+	cursor:pointer;
+}
+/*--------------------------------end ceilometer------------------------------------------------*/
+
+
+/*--------------------------------start auditlog------------------------------------------------*/
+.audit_form_ul {margin-top:15px}
+.audit_form_ul li label{float:right;margin-top:5px;padding-right:4px;}
+.audit_form_ul li {float:left;width:33%}
+
+.auditlog_form_div input{border:1 none;width:57%;float:right;}
+.auditlog_form_div select {border:1 none;width:60%;float:right;}
+.auditlog_submit {float:right;margin-right:1%}
+.auditlog_button {
+	background:url(/static/dashboard/img/search.png) no-repeat 5px 5px;
+        padding-left: 25px;
+}
+.auditlog_button:hover{
+	color:#333;
+	background-color:#f5f5f5;
+}
+/*--------------------------------end auditlog------------------------------------------------*/
+#search_form > span {
+        display: block;
+        float: left;
+        width: 50%;
+     label {
+        display: inline
+     }
+}

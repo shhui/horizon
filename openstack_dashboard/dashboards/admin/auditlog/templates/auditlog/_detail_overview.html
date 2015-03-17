@@ -1,0 +1,28 @@
+{% load i18n sizeformat %}
+{% load url from future %}
+
+<div class="status row-fluid detail">
+  <h4>{% trans "Info" %}</h4>
+  <hr class="header_rule">
+  <dl>
+    <dt>{% trans "ID" %}</dt>
+    <dd>{{ auditlogs.id }}</dd>
+		<div class="clear"></div>
+    <dt>{% trans "UserID" %}</dt>
+    <dd>{{ auditlogs.user_id }}</dd>
+    <dt>{% trans "TenantID" %}</dt>
+    <dd>{{ auditlogs.tenant_id }}</dd>
+    <dt>{% trans "Resource Path" %}</dt>
+    <dd class="whole-row">{{ auditlogs.path }}</dd>
+    <dt>{% trans "Operate Info" %}</dt>
+    <dd class="whole-row">{{ auditlogs.content }}</dd>
+    <dt>{% trans "Method" %}</dt>
+    <dd>{{ auditlogs.method }}</dd>
+    <dt>{% trans "Result" %}</dt>
+    <dd>{{ auditlogs.status_code }}</dd>
+    <dt>{% trans "Operate Start Time" %}</dt>
+    <dd>{{ auditlogs.begin_at|parse_isotime }}</dd>
+    <dt>{% trans "Operate End Time" %}</dt>
+    <dd>{{ auditlogs.end_at|parse_isotime }}</dd>
+  </dl>
+</div>

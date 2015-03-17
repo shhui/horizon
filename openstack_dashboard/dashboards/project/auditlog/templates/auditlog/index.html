@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Auditlogs" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Auditlogs") %}
+{% endblock page_header %}
+
+{% block main %}
+   <div class="auditlog_search">
+    <form id="search_form"
+        ng-controller="DummyCtrl"
+        class="ng-scope ng-pristine ng-valid"
+        action="."
+        method="POST"
+        >{% csrf_token %}
+     <ul class="audit_form_ul">
+     {% for field in form.visible_fields %}
+      <li><div class="auditlog_form_div"> <span>{{ field }}</span>{{ field.label_tag }}</div></li>
+     {% endfor %}
+    </ul>
+		<div class="auditlog_submit"><input type="submit" value="{% trans 'Search' %}" class="auditlog_button" id="volumes__action_filter"/></div>
+    <div style="clear:right"/>
+    </form>
+  </div>
+    {{ table.render }}
+{% endblock %}
